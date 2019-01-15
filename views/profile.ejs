@@ -1,0 +1,84 @@
+<% include partials/header %>
+
+<style>
+  .inputfile {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+.inputfile + label {
+    font-size: 1.25em;
+    font-weight: 700;
+    display: inline-block;
+    cursor: pointer;
+}
+</style>
+
+<div style="background-color: black; height: 400px;">
+    <% if(!currentUser.profilePicture){ %>
+        <div style="height: 100px;"></div>
+        <img style="border-radius: 50%; display: block; margin: auto;" width="200" height="200" src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBwgHBgkIBwgKCgkLDRYPDQwMDRsUFRAWIB0iIiAdHx8kKDQsJCYxJx8fLT0tMTU3Ojo6Iys/RD84QzQ5OjcBCgoKDQwNGg8PGjclHyU3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3N//AABEIAH0AfQMBIgACEQEDEQH/xAAaAAEAAwEBAQAAAAAAAAAAAAAAAQIEAwUH/8QAJhABAAICAAYBBAMAAAAAAAAAAAECAxEEEiExQVFxEyJhoTOBsf/EABQBAQAAAAAAAAAAAAAAAAAAAAD/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwD7IAAAAAAAAAAAAAAAAAAAAACRzvmpjn7rRv05TxlPFbfoGlDhXi8c991+Xatq2iJrMTH4BIAAAAAAAAADNxPETWZpjnr5l2z3+nitaO/aHmgAALUvaluas6n/AFUB6WHLGWu46T5j0u8/h8n08sT4npL0AAAAABWJWAABm46ftpHjcsbbx0bx1t6liAAAAAepSd0rPuIeXHfXvo9WI1WI9RoAEggJnSu5BBE6AFoslQiZgFslIvSaz2mHmWrNLTW0amHpc2nPPjrljczq0eQYBNo1aY3H9TtAAOuDFGSet6xHz1BfhMU2vzT2r+5bla8tI5axqIRzAv0Vm3pUAAAAARaYrEzM6iC1orWbW6RDDmyzlt6r4gHTLxU9sca/Ms9rTad2mZ+UAJQAAAOlMt6drdPUtWHiK36W+23rwwgPUGbhs+/syT8S0gAAAre3JSbeoBl4vJzW5I7V7s6Znc7lAAAAAAAAADfw+T6lOveOksDtwluXLrxboDcAA48XOsMx7mHZw43+KPkGIAAAAAAAAABak6tEx4lUB6gAP//Z">
+        <div style="text-align:center">    
+            <a data-toggle="modal" data-target="#profilePicture" href="#" style="font-size: 80%;">Update profile picture</a>
+        </div>
+    <% } else { %>
+        <div style="height: 100px;"></div>
+        <img style="border-radius: 50%; display: block; margin: auto;" width="200" height="200" src="/image/<%= currentUser.profilePicture %>">
+        <div style="text-align:center">    
+            <a data-toggle="modal" data-target="#profilePicture" href="#" style="font-size: 80%;">Update profile picture</a>
+        </div>
+    <% } %>
+</div>
+<div class="modal fade" id="profilePicture" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">It matters how you look!</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="/addprofilepicture" method="POST" enctype="multipart/form-data">
+          <input type="file" id="file" name="file" class="inputfile">
+		  <label for="file" id="label">
+		    <div class="m-auto"><i class="fas fa-file-image fa-3x" style="color: red;"></i></div>
+		        <p class="text-center">Choose an image</p>
+		  </label>
+		  <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Update</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container">
+	<h1 class="text-center mt-3 mb-5">My Uploads</h1>
+	<% items.forEach(function(item) { %>
+	        <div class="mt-5">
+	          <div class="card m-auto" style="width: 35%">
+                <img height="300" src="image/<%= item.displayfilename %>">
+                <div class="card-body">
+                	<h5 class="card-title mb-0"><%= item.itemname %></h5>
+                	<p class="card-text mt-0 mb-0"><strong>Price:</strong> <span style='font-family:Arial;'>&#8377;</span> <%= item.price %></p>
+                	<div class="mt-0">
+                	    <strong>Description:</strong>
+                	    <p><%= item.description %></p>
+                	</div>
+                	<a href="/delete/<%= item.displayfilename %>">Delete</a> |
+                	<a href="/edit/<%= item.displayfilename %>">Edit</a>
+                </div>
+            </div>
+	        </div>
+        <% }); %>
+	 <br>
+</div>
+
+<% include partials/scripts %>
+<script type="text/javascript" src="/javascript/script.js"></script>
+<% include partials/footer %>

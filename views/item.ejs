@@ -1,0 +1,60 @@
+<% include partials/header %>
+
+<% if(currentUser){ %>
+    <% for(var i = 0; i < currentUser.wishlist.length; i++){ %>
+        <% if(currentUser.wishlist[i].displayfilename === item.displayfilename){ %>
+            <a style="float: right;" href="/removefromwishlist/<%= item.displayfilename %>">Remove item from wishlist</a>
+        <% } %>
+    <% } %>
+<% } %>
+
+<div class="container mt-5">
+    <div id="carouselExampleIndicators" class="carousel slide m-auto" data-ride="carousel" style="width: 60%;">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img class="d-block w-100" height="400" src="/image/<%= item.displayfilename %>" alt="First slide">
+            </div>
+        </div>
+        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+    <div class="text-center mt-3">
+        <h3><%= item.itemname %></h3>
+        <p><strong>Price: </strong> <span style='font-family:Arial;'>&#8377;</span> <%= item.price %></p>
+        <p class="mb-0"><strong>Description of the item:</strong></p>
+        <p><%= item.description %></p>
+        <p><strong>SELLER INFORMATION</strong></p>
+        <p><strong>Username: </strong><%= seller.username %></p>
+        <p><strong>Contact: </strong><%= seller.contact %></p>
+        <p><strong>Email: </strong><%= seller.email %></p>
+        <p><strong>ITEM REVIEWS</strong></p>
+        <button id="reviewbtn" class="btn btn-success">Write a review</button>
+        <form style="display: none;" action="/review/<%= item.displayfilename %>" method="POST">
+            <div style="width: 60%;" class="form-group m-auto">
+    			<textarea class="form-control" name="review" id="inputReview" rows="2" placeholder="Write your review here"></textarea>
+			</div>
+			<button class="btn btn-success mt-3">Add review</button>
+        </form>
+        <% item.reviews.forEach(function(review){ %>
+                <p class="mb-0 mt-2"><%= review.username %>: <%= review.review %></p>
+        <% }) %>
+    </div>
+    <br><br><br><br><br><br>
+</div>
+
+<% include partials/scripts %>
+<script>
+    $(document).ready(function(){
+        $('#reviewbtn').click(function(){
+            $("#reviewbtn").hide();
+            $("form").show("slow");
+        });
+    });
+</script>
+<% include partials/footer %>

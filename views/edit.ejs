@@ -1,0 +1,48 @@
+<% include partials/header %>
+
+<style>
+  .inputfile {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+.inputfile + label {
+    font-size: 1.25em;
+    font-weight: 700;
+    display: inline-block;
+    cursor: pointer;
+}
+</style>
+
+<div class="container">
+    <h1 class="text-center mt-3 mb-5">Edit Upload</h1>
+	<div class="text-center m-auto" style="width: 50%;">
+		<form action="/edit/<%= item.displayfilename %>" method="POST" enctype="multipart/form-data">
+			<input type="file" id="file" name="file" class="inputfile">
+			<label for="file" id="label">
+				<div><i class="fas fa-file-image fa-3x" style="color: red;"></i></div>
+				<p><%= item.originalfilename %></p>
+			</label>
+			<div class="form-group">
+    			<input type="text" name="itemname" class="form-control" id="inputItem" placeholder="Item Name" value="<%= item.itemname %>">
+  			</div>
+			<div class="form-group">
+    			<input type="number" name="price" class="form-control" id="inputPrice" placeholder="Price" value="<%= item.price %>">
+  			</div>
+  			<div class="form-group">
+    			<textarea class="form-control" name="description" id="inputDescription" rows="4" placeholder="Description of the item"><%= item.description %></textarea>
+			</div>
+  			<div class="form-group">
+    			<button class="btn btn-success btn-block">Edit</button>
+  			</div>
+		</form>
+	</div>	
+</div>
+
+<% include partials/scripts %>
+<script type="text/javascript" src="/javascript/script.js"></script>
+<% include partials/footer %>

@@ -1,0 +1,33 @@
+<% include partials/header %>
+
+<% if(chat.length != 0){ %>
+    <a style="float: right;" href="/chat/delete/<%= username %>">Delete this chat</a>
+    <br>
+    <a style="float: right;" href="/chat/block/<%= username %>">Block user</a>
+<% } %>
+
+<div class="container mt-5">
+    <div class="text-center m-auto">
+       <% if(blockedSend === 1){ %>
+           <h4 class="text-center">You have been blocked by <%= username %>. You cannot send or recieve any messages on this chat.</h4>
+       <% } else if(blockedRecieve === 1) { %>
+           <h4 class="text-center">You have blocked <%= username %>. If you want to continue chatting you need to <a href="/chat/unblock/<%= username %>">unblock</a> first</h4>
+       <% } else { %>
+           <h1>Chat page between you and <%= username %></h1>    
+           <form class="mt-5" action="/chat/<%= username %>" method="POST">
+                <div style="width: 60%;" class="form-group m-auto">
+    	            <textarea class="form-control" name="message" id="inputMessage" rows="2" placeholder="Write your message here"></textarea>
+	            </div>
+	            <div class="form-group m-auto">
+	                <button class="btn btn-success mt-3">Send</button>
+	            </div>
+           </form>
+       <% } %>
+       <% chat.forEach(function(message){ %>
+        <p><%= message.username %>: <%= message.message %></p>
+       <% }); %>
+    </div>
+</div>
+
+<% include partials/scripts %>
+<% include partials/footer %>

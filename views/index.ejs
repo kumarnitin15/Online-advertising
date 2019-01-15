@@ -1,0 +1,42 @@
+<% include partials/header %>
+
+<div class="container">
+    <h1 class="text-center mt-3 mb-5">Items For Sale</h1>
+    <% items.forEach(function(item, index){ %>
+        <div class="mt-5">
+            <div class="card m-auto" style="width: 30%">
+                <img height="200" src="image/<%= item.displayfilename %>">
+                <div class="card-body">
+                    <h5 class="card-title mb-0"><%= item.itemname %></h5>
+                    <p class="card-text mt-0"><strong>Price:</strong> <span style='font-family:Arial;'>&#8377;</span> <%= item.price %></p>
+                    <a href="#" data-toggle="modal" data-target="#description<%= index %>">Description</a> |
+                    <a href="/item/<%= item.displayfilename %>">View</a> |
+                    <a href="/chat/<%= item.seller %>">Text the seller</a> |
+                    <a style="color: red;" title="Add to wishlist" href="/addtowishlist/<%= item.displayfilename %>"><i class="fa fa-plus-circle" aria-hidden="true"></i></a>
+                    <div class="modal fade" id="description<%= index %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+						<div class="modal-dialog" role="document">
+    						<div class="modal-content">
+    							<div class="modal-header">
+        							<h5 class="modal-title" id="exampleModalLongTitle">Item Description</h5>
+        							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        								<span aria-hidden="true">&times;</span>
+        							</button>
+    							</div>
+    							<div class="modal-body">
+    								<%= item.description %>
+    							</div>
+    							<div class="modal-footer">
+        							<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+    							</div>
+    						</div>
+						</div>
+					</div>
+                </div>
+            </div>
+        </div>
+    <% }) %>
+    <br>
+</div>
+
+<% include partials/scripts %>
+<% include partials/footer %>
